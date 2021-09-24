@@ -6,16 +6,12 @@ from PyQt5.QtWidgets import \
     QDialog, QMainWindow, QMessageBox, QFileDialog
 from PyQt5.QtGui import QImage, QPixmap, QMovie
 import time
-
 import threading
-import multiprocessing
 from pytube import YouTube
-
-# from xml.etree import ElementTree as ET
 import json
 from configparser import ConfigParser
 
-X = True
+
 
 
 class Download(QThread):
@@ -48,9 +44,6 @@ class Download(QThread):
         self._isRunning = False
 
 
-
-
-
 class YtDownloaderGUI(QDialog):
 
     global X
@@ -62,23 +55,25 @@ class YtDownloaderGUI(QDialog):
         self.config = ConfigParser()
         self.config.read('config.INI')
 
-        self.plainTextEdit_2.setPlainText(self.config['DEFAULT']['download_path'])
-
         self.download_core = Download()
-
         self.download_core.download_path = self.config['DEFAULT']['download_path']
 
+        #create downloadpath on first run
+        try:
+            os.mkdir(self.download_core.download_path)
+        except:
+            pass
 
-
-        self.loadingMovie = QMovie("loading.gif")
+        self.plainTextEdit_2.setPlainText(self.download_core.download_path)
         
+        self.loadingMovie = QMovie("loading.gif")
         self.loaded_image = QImage("ok.png")
 
         self.downthread = QThread()
         # self.downthread.started.connect(self.download)
         self.downthread.finished.connect(self.SuccessMessage)
 
-        self.setAttribute(Qt.WA_DeleteOnClose)
+        # self.setAttribute(Qt.WA_DeleteOnClose)
         self.label_progess.hide()
         self.progressBar.hide()
         self.pushButton_3.hide()
