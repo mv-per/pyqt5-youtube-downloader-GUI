@@ -7,7 +7,8 @@ A simple PyQt5 + pytube GUI to download youtube videos
 2. run: git init
 3. run: git pull https://github.com/mv-per/pyqt5-youtube-downloader-GUI/
 4. run: pip install -r requirements.txt
-5. run: python main.py
+5. run: runas (It's necessary admin privileges since it will download files into you computer)
+7. run: python main.py
 
 ## How to Use
 
